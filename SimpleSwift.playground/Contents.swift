@@ -115,30 +115,31 @@ calculate("1 -2 3 -4 5 count") == 5
 // to use floating-point values
 
 func calculate(_ args: [String]) -> Double {
-    let operand = args[1]
-    switch operand {
-    case "+":
-        return Double(args[0])! + Double(args[2])!
-    case "-":
-        return Double(args[0])! - Double(args[2])!
-    case "*":
-        return Double(args[0])! * Double(args[2])!
-    case "/":
-        return Double(args[0])! / Double(args[2])!
-    case "%":
-        return Double(args[0])!.truncatingRemainder(dividingBy: Double(args[2])!)
+    let a = args[args.count - 1]
+    switch a {
+    case "count":
+        // when the last item in the array is "count", return number of items in the array
+        return Double(args.count - 1)
     default:
-        return -1.0
+        let operand = args[1]
+        switch operand {
+        case "+":
+            return Double(args[0])! + Double(args[2])!
+        case "-":
+            return Double(args[0])! - Double(args[2])!
+        case "*":
+            return Double(args[0])! * Double(args[2])!
+        case "/":
+            return Double(args[0])! / Double(args[2])!
+        case "%":
+            return Double(args[0])!.truncatingRemainder(dividingBy: Double(args[2])!)
+        default:
+            return -1.0
+        }
     }
 }
 func calculate(_ arg: String) -> Double {
-    let a = arg.split(separator: " ")
-    var b : [String] = Array(repeating: "", count: a.count)
-    for i in 0...a.count - 1 {
-        let c = String(a[i])
-        b[i] = c
-    }
-    return calculate(b)
+    return calculate(arg.components(separatedBy: " "))
 }
 
 calculate(["2.0", "+", "2.0"]) == 4.0
@@ -148,5 +149,5 @@ calculate(["2.5", "*", "2.5"]) == 6.25
 calculate(["2.0", "/", "2.0"]) == 1.0
 calculate(["2.0", "%", "2.0"]) == 0.0
 calculate(["17.0", "%", "3.0"]) == 2.0
-calculate("1.0 2.0 3.0 4.0 5.0 count") == 5
+calculate("1.0 2.0 3.0 4.0 5.0 count") == 5.0
 
